@@ -1,21 +1,96 @@
-Hi, 
-would you like to come to my house on 
-Saturday evening at 7 pm?
-By the way I also got the new computer set up today,
-so we can finally play together!
+class Student:
+    def __init__(self, name):
+        self.name = name
+        self.gladness = 50
+        self.progress = 0
+        self.energy = 50  
+        self.alive = True
 
-Are you excited for the soon halloween, 
-I consider about buying some scary outfit to make fun of classmates. I already imagine their faces😂.
+    def to_study(self):
+        print("I'm studying this week!")
+        self.progress += 0.15 * 7
+        self.gladness -= 4 * 7
+        self.energy -= 6 * 7
 
-I'm sending this message earlier because 
-I know that you rarely getting online.
+    def to_sleep(self):
+        print("I'm sleeping this week.")
+        self.gladness += 3 * 7
+        self.energy += 10 * 7
 
-If you need some help with homework,
-just text me and when you
-get to me we will look on it,
-when you will come to my place.
+    def to_chill(self):
+        print("I'm chilling this week.")
+        self.gladness += 5 * 7
+        self.progress -= 0.1 * 7
+        self.energy -= 2 * 7
 
-text me when you'll be free
+    def is_alive(self):
+        if self.progress < -0.5:
+            print(f"{self.name} was cast out from the university due to poor progress.")
+            self.alive = False
+            self.end_game("cast_out")
+        elif self.gladness <= 0:
+            print(f"{self.name} fell into depression and couldn't continueselfself.")
+            self.alive = False
+            self.end_game("depression")
+        elif self.energy <= 0:
+            print(f"{self.name} is too exhausted to continue...")
+            self.alive = False
+            self.end_game("exhaustion")
+        elif self.progress > 5 and self.gladness > 20:
+            print(f"{self.name} successfully passed all exams and graduated with good mental health!")
+            self.alive = False
+            self.end_game("successful_graduation")
+        elif self.progress > 5:
+            print(f"{self.name} graduated,` but was mentally exhausted...")
+            self.alive = False
+            self.end_game("exhausted_graduation")
 
-have a nice day
-Arthur
+    def end_of_the_week(self):
+        print(f"Gladness = {self.gladness}")
+        print(f"Progress = {round(self.progress, 2)}")
+        print(f"Energy = {self.energy}")
+
+    def end_game(self, ending_type):
+        if ending_type == "cast_out":
+            print(f"Unfortunately, {self.name} was dismissed from university due to poor progress.")
+        elif ending_type == "depression":
+            print(f"{self.name} couldn't handle the stress and fell into depression.")
+        elif ending_type == "exhaustion":
+            print(f"{self.name} became too exhausted to continue.")
+        elif ending_type == "successful_graduation":
+            print(f"Congratulations! {self.name} graduated with great results.")
+        elif ending_type == "exhausted_graduation":
+            print(f"{self.name} graduated, but was totally exhausted. Next time.")
+        print("Game over.")
+        
+    def live_a_week(self, week):
+        week_message = f"Week {week} of {self.name}'s life."
+        print(f"{week_message:^50}")
+        
+        while True:
+            print("Choose what to do this week: 1 - Study, 2 - Sleep, 3 - Chill")
+            choice = input("Enter your choice (1, 2, or 3): ")
+            
+            if choice == "1":
+                self.to_study()
+                break
+            elif choice == "2":
+                self.to_sleep()
+                break
+            elif choice == "3":
+                self.to_chill()
+                break
+            else:
+                print("Please enter 1, 2, or 3.")
+        
+        self.end_of_the_week()
+        self.is_alive()
+
+
+name = input("Enter the name: ")
+student = Student(name=name)
+
+for week in range(52):  
+    if not student.alive:
+        break
+    student.live_a_week(week)
